@@ -1,0 +1,22 @@
+server:
+  port: 10010
+spring:
+  cloud:
+    nacos:
+      server-addr: localhost:8848
+    gateway:
+      routes:
+        - id: shop-serve
+          uri: lb://shopServe
+          predicates:
+            - Path=/shop/**
+        - id: user-serve  # 一条路由规则的 id
+          uri: lb://userServe    # 路由的目标地址 lb就是负载均衡，后面跟服务名称
+          predicates: # 路由断言
+            - Path=/user/**
+        - id: order-serve
+          uri: lb://orderServe
+          predicates:
+            - Path=/order/**
+  application:
+    name: gateway
